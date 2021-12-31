@@ -1,3 +1,3 @@
-# Kokoa Clone
+# Study
 
-CSS got so much better!
+It's so coooool!
