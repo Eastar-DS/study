@@ -13,5 +13,23 @@
 }
 
 .nav__link {
+  position: relative;
   color: #36393e;
+}
+
+.nav__notification {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+}
+
+.nav__challenge {
+  background-color: tomato;
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  display: flex;
+  position: absolute;
+  left: 35px;
+  bottom: 30px;
 }
