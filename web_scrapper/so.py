@@ -2,9 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 
 #1. 주소가져오기 2. 리퀘스트 만들기 3. job추출하
-URL = "https://stackoverflow.com/jobs?q=python"
 
-def get_last_page():
+
+def get_last_page(URL):
     result = requests.get(URL)
     soup = BeautifulSoup(result.text, "html.parser")
     pagination = soup.find("div", {"class":"s-pagination"})
@@ -28,7 +28,7 @@ def extract_job(html):
     return {'title':title, 'company':company, 'location':location, 
             'link':f"https://stackoverflow.com/jobs/{job_id}"}
 
-def extract_jobs(last_page):
+def extract_jobs(last_page,URL):
     jobs = []
     # for page in range(1):
     for page in range(last_page):
@@ -44,9 +44,10 @@ def extract_jobs(last_page):
             jobs.append(job)
     return jobs
 
-def get_so_jobs():
-    last_page = get_last_page()
-    jobs = extract_jobs(last_page)
+def get_so_jobs(word):
+    url = f"https://stackoverflow.com/jobs?q={word}"
+    last_page = get_last_page(url)
+    jobs = extract_jobs(last_page, url)
     return jobs
 
 

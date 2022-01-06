@@ -2,10 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 
 #주소뒤에 50씩 더해줄거니까 따로빼서 변수로.
-URL = "https://kr.indeed.com/jobs?q=Python&limit=50"
+
 LIMIT = 50
 
-def extract_indeed_pages():
+def extract_indeed_pages(URL):
     result = requests.get(URL)
     
     #200 means ok
@@ -49,7 +49,7 @@ def extract_job(html):
     return {'title':title, 'company':company, 'location':location, "link": f"https://kr.indeed.com/%EC%B1%84%EC%9A%A9%EB%B3%B4%EA%B8%B0?jk={job_id}"}
     
  
-def extract_indeed_jobs(last_page):
+def extract_indeed_jobs(last_page, URL):
     jobs = []
     for page in range(last_page):
         print(f"Scrapping Indeed Page: {page}")
@@ -73,9 +73,10 @@ def extract_indeed_jobs(last_page):
 
 
 
-def get_indeed_jobs():
-    last_indeed_page = extract_indeed_pages()
-    indeed_jobs = extract_indeed_jobs(last_indeed_page)
+def get_indeed_jobs(word):
+    url = f"https://kr.indeed.com/jobs?q={word}&limit=50"
+    last_indeed_page = extract_indeed_pages(url)
+    indeed_jobs = extract_indeed_jobs(last_indeed_page, url)
     return indeed_jobs
 
 
