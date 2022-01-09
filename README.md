@@ -1,6 +1,5 @@
 # Study
 
-It's so coooool!
+보고싶은 페이지는 주소뒤에 폴더명을 붙여주세요.
 
-!
-icon : heroicons
+
