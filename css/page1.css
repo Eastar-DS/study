@@ -1,0 +1,30 @@
+.father {
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  grid-template-rows: 50px repeat(2, 200px) 100px;
+  grid-template-areas: "h h h h" "c c . n" "c c . n" "v v v v";
+}
+.h,
+.c,
+.n,
+.v {
+  background: peru;
+  color: white;
+  font-size: 50px;
+}
+
+.h {
+  grid-area: h;
+  background: skyblue;
+}
+.c {
+  grid-area: c;
+  background: slateblue;
+}
+.n {
+  grid-area: n;
+}
+.v {
+  grid-area: v;
+  background: tomato;
+}
