@@ -5,12 +5,13 @@ global router
 /serach
 
 user router
-/user/edit
-/user/delete
+/users/:id
+/users/logout
+/users/edit
+/users/delete
 
 video router
-/video/watch
-/video/edit
-/video/delete
-/video/comment
-/video/comment/delete
+/videos/:id
+/videos/:id/edit
+/videos/:id/delete
+/videos/upload
