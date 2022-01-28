@@ -1,24 +1,17 @@
 {
   "name": "wetube",
   "version": "1.0.0",
-  "description": "The best way to watch videos.",
-  "repository": {
-    "type": "git",
-    "url": "(https://github.com/Eastar-DS/study/tree/main/wetube)"
-  },
   "scripts": {
     "dev": "nodemon --exec babel-node src/server.js"
   },
-  "author": "Eastar",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.2",
-    "morgan": "^1.10.0"
+    "express": "^4.17.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.7",
+    "@babel/core": "^7.16.12",
     "@babel/node": "^7.16.8",
-    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
     "nodemon": "^2.0.15"
   }
 }
