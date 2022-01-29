@@ -1,3 +1,4 @@
+import "./db"
 import express from "express"
 // const express = require("express")
 import morgan from "morgan"
