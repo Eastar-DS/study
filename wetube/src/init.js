@@ -1,6 +1,9 @@
+// require('dotenv').config()
+import "dotenv/config"
 //DB와 Video import하고
 import "./db"
 import "./models/Video"
+import "./models/User"
 import app from "./server"
 
 //우리 app을 작동시킬거야. 포트랑 app을 가져와야겠네
