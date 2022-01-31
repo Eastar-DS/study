@@ -158,5 +158,72 @@ export const logout = (req,res) => {
     req.session.destroy()
     return res.redirect("/")
 }
-export const edit = (req,res) => res.send("EditUser")
 
+export const getEdit = (req,res) => {
+    return res.render("edit-profile", {pageTitle: "Edit Profile"})
+}
+export const postEdit = async (req,res) => {
+    const { 
+        session: {
+            user: { _id }, 
+        },
+        body : { name, email, username, location,},
+        file,
+     } =  req
+    //  console.log(file)
+    //const i = req.session.user.id
+    // const { name, email, username, location,} = req.body
+    const updatedUser = await User.findByIdAndUpdate(_id, {
+        name,
+        email, 
+        username, 
+        location,
+        },
+        // findByIdAndUpdate는 업데이트 전의 user를 리턴하므로 new:true를 적어주자.
+        { new: true}
+    )
+    //유저는 업데이트했는데 세션은 업데이트 안했네? 홈피에서 이메일이 안바뀐다야
+    req.session.user = updatedUser
+    // req.session.user={
+    //     ...req.session.user,
+    //     name,
+    //     email,
+    //     username,
+    //     location,
+    // }
+    return res.redirect("/users/edit")
+}
+
+export const getChangePassword = (req,res) => {
+    return res.render("users/change-password", {pageTitle: "Change Password"})
+}
+export const postChangePassword = async (req,res) => {
+    //비번바꿨네? 잘했어~를 보내줘
+    const { 
+        session: {
+            user: { _id }, 
+        },
+        body : { oldPassword, newPassword, newPasswordConfirmation, },
+    } =  req
+    const ok = await bcrypt.compare(oldPassword, user.password)
+    if(newPassword !== newPasswordConfirmation) {
+        return res.status(400).render("/users/change-password", {
+            pageTitle: "Change Password",
+            errorMessage: "The password does not match the confirmation",
+        })
+     }
+     if(!ok) {
+         return res.status(400).render("/users/change-password", {
+            pageTitle: "Change Password",
+            errorMessage: "The current password is incorrect",
+        })
+     }
+     const user = await User.findById(_id)
+     user.password = newPassword
+    //  console.log(user.password)
+     await user.save()
+    //  console.log(user.password)
+    // logout시키려는데 세션이랑 비교해야하네또! 
+    // req.session.user.password = user.password
+    return res.redirect("/users/logout")
+}

@@ -1,13 +1,17 @@
 import express from "express"
-import { startGithubLogin, finishGithubLogin, logout, edit, remove} from "../controllers/userController"
+import { startGithubLogin, finishGithubLogin, logout, 
+    getEdit, postEdit, getChangePassword, postChangePassword, remove} from "../controllers/userController"
+import {publicOnlyMiddleware, protectorMiddleware, uploadFiles} from "../middlewares"
+
 
 const userRouter = express.Router()
 
 
-userRouter.get("/logout", logout)
-userRouter.get("/edit", edit)
-userRouter.get("/github/start", startGithubLogin)
-userRouter.get("/github/finish", finishGithubLogin)
+userRouter.get("/logout", protectorMiddleware, logout)
+userRouter.route("/edit").all(protectorMiddleware).get(getEdit).post(uploadFiles.single("avatar"), postEdit)
+userRouter.route("/change-password").all(protectorMiddleware).get(getChangePassword).post(postChangePassword)
+userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin)
+userRouter.get("/github/finish", publicOnlyMiddleware, finishGithubLogin)
 
 
 export default userRouter

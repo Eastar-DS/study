@@ -1,5 +1,6 @@
 // require('dotenv').config()
 import "dotenv/config"
+
 //DB와 Video import하고
 import "./db"
 import "./models/Video"
