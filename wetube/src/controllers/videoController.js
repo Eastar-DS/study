@@ -129,6 +129,10 @@ export const deleteVideo = async (req,res) => {
     if(String(video.owner) !== String(_id)){
         return res.status(403).redirect("/")
     }
+    // 8.14댓글 user에있는 video목록도 지워줘야겠네?
+    const user = await User.findById(_id);
+    user.videos.splice(user.videos.indexOf(id),1);
+    user.save();
     
     await Video.findByIdAndDelete(id)
     return res.redirect("/")
