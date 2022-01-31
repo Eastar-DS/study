@@ -8,7 +8,15 @@ block content
     div
         p=video.description
         small=video.createdAt    
-    a(href=`${video.id}/edit`) Edit Video &rarr;
-    br
-    a(href=`${video.id}/delete`) Delete Video &rarr;
+        //- video.owner, loggedInUser._id가 일치하면 수정,삭제 가능하게하자.
+        //- small=video.owner
+        //- br
+        //- small=loggedInUser._id
+    div
+        small Uploaded by 
+            a(href=`/users/${video.owner._id}`)=video.owner.name
+    if String(video.owner._id) === String(loggedInUser._id)
+        a(href=`${video.id}/edit`) Edit Video &rarr;
+        br
+        a(href=`${video.id}/delete`) Delete Video &rarr;
     

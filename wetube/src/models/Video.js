@@ -11,6 +11,8 @@ const videoSchema = new mongoose.Schema({
         view: { type: Number, default: 0, required:true},
         rating: { type: Number, default: 0, required:true},
     },
+    // ref : 어떤 모델과 연결할거냐?
+    owner:{type: mongoose.Schema.Types.ObjectId, required:true, ref:'User'}
 })
 
 // 3번째 static!

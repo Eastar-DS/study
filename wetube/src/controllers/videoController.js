@@ -1,4 +1,6 @@
+import User from "../models/User"
 import Video from "../models/Video"
+
 
 // {}는 search terms임. 비어있으면 모든형식을 찾는다는뜻
 // Video.find({}, (error, videos) => {
@@ -23,7 +25,10 @@ export const watch = async (req,res) => {
     // const id = req.params.id
     // console.log(req.params)
     const {id} = req.params
-    const video = await Video.findById(id)
+    // const video = await Video.findById(id)
+    // owner의 ref를 User로 적어놨는데 굳이 이렇게 할필요없겠네? populate!
+    // const owner = await User.findById(video.owner)
+    const video = await Video.findById(id).populate("owner")
     // console.log(video)
     if(!video){
         return res.render("404", {pageTitle : `Video is not found`,  })
@@ -35,6 +40,13 @@ export const getEdit = async (req,res) => {
     const video = await Video.findById(id)
     if (!video) {
         return res.status(404).render("404", {pageTitle : `Video is not found`,  })
+    }
+    // 8.14 edit홈피에서 동영상 주인만 수정할 수 있게 해야함!
+    // console.log(video.owner, _id)
+    // console.log(typeof video.owner,typeof  _id) : object, string
+    const {user : {_id}} = req.session
+    if(String(video.owner) !== String(_id)){
+        return res.status(403).redirect("/")
     }
     return res.render("edit", {pageTitle : `Editing: ${video.title}`, video, })
 }
@@ -48,6 +60,12 @@ export const postEdit = async (req,res) => {
     if (!video) {
         return res.status(404).render("404", {pageTitle : `Video is not found`,  })
     }
+    // 8.14 여기도 getEdit과 같이
+    const {user : {_id}} = req.session
+    if(String(video.owner) !== String(_id)){
+        return res.status(403).redirect("/")
+    }
+
     await Video.findByIdAndUpdate(id, {
         title,
         description,
@@ -67,18 +85,28 @@ export const getUpload = (req,res) => {
 }
 
 export const postUpload = async (req,res) => {
+    const {
+        user: {_id}
+    } = req.session
     // const file = req.file
     const {path : fileUrl} = req.file
     const { title, description, hashtags } = req.body
     try {
-        await Video.create({
+        //8.13 create는 return해주는게 있으므로 이걸 이용해서 user에 추가해주자.
+        const newVideo = await Video.create({
         // const video = new Video({
             title,
             description,
             fileUrl,
             // fileUrl:file.path,
+            owner: _id,
             hashtags : Video.formatHashtags(hashtags),                
         })
+        //8.13
+        const user = await User.findById(_id)
+        user.videos.push(newVideo._id)
+        user.save()
+
         return res.redirect(`/`)
     } catch(error) {
         console.log(error)
@@ -92,6 +120,16 @@ export const postUpload = async (req,res) => {
 
 export const deleteVideo = async (req,res) => {
     const {id} = req.params
+    // 8.14 여기도! Edit과같이.
+    const video = await Video.findById(id)
+    if (!video) {
+        return res.status(404).render("404", {pageTitle : `Video is not found`,  })
+    }
+    const {user : {_id}} = req.session
+    if(String(video.owner) !== String(_id)){
+        return res.status(403).redirect("/")
+    }
+    
     await Video.findByIdAndDelete(id)
     return res.redirect("/")
 }

@@ -1,4 +1,5 @@
 import User from "../models/User"
+import Video from "../models/Video"
 import bcrypt from "bcrypt"
 import fetch from "node-fetch"
 import { redirect } from "express/lib/response"
@@ -230,4 +231,19 @@ export const postChangePassword = async (req,res) => {
     // logout시키려는데 세션이랑 비교해야하네또! 
     // req.session.user.password = user.password
     return res.redirect("/users/logout")
+}
+
+export const see = async (req,res) => {
+    const {id} = req.params
+    // 8.13 또다른 방법! populate!
+    const user = await User.findById(id).populate("videos")
+    if(!user){
+        return res.status(404).render("404", {pageTitle: "User not found."})
+    }
+    //내 id를 owner로 가지고있는 video를 찾을 수 있겠네!
+    // const videos = await Video.find({owner: user._id})
+    //array가 나오네! 템플릿에 videos 보내자 ㅎㅎ
+    // console.log(videos)
+    
+    return res.render(`users/profile`, {pageTitle: user.name, user})
 }
