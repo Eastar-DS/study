@@ -1,0 +1,17 @@
+extends base
+
+block content 
+    img(src="/" + loggedInUser.avatarUrl, width="100", height="100")
+    form(method="POST", enctype="multipart/form-data")
+        //- locals가 있으므로 name에 변수 사용가능.
+        label(for="avatar") Avatar
+        input(type="file", id="avatar", name="avatar", accept="image/*")
+        input(value=loggedInUser.name ,placeholder="Name", name="name", type="text", required)
+        input(value=loggedInUser.email ,placeholder="Email", name="email", type="text", required)
+        input(value=loggedInUser.username ,placeholder="Username", name="username", type="text", required)
+        input(value=loggedInUser.location ,placeholder="Location", name="location", type="text", required)
+        input(type="submit", value="Update Profile")
+        if !loggedInUser.socialOnly
+            hr
+            a(href="change-password") Change Password &rarr;
+

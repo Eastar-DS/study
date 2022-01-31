@@ -1,24 +1,45 @@
-// const express = require("express")
+//express에 관련된것과 server의 configuration에 관련된 코드만 처리하자.
 import express from "express"
+// const express = require("express")
 import morgan from "morgan"
+import session from "express-session"
+import {localsMiddleware} from "./middlewares"
+import MongoStore from "connect-mongo"
+import rootRouter from "./routers/rootRouter"
+import videoRouter from "./routers/videoRouter"
+import userRouter from "./routers/userRouter"
 
-const PORT = 4002;
+
 
 const app = express()
 const logger = morgan("dev")
 
-// const handleHome = (req, res) => console.log("somebody is trying to go home")
-// app.get("/", () => console.log("somebody is trying to go home"))
-const handleHome = (req, res) => {
-    // return res.end()
-    return res.send("Hello Newbie!")
-}
-
+app.set("view engine", 'pug')
+app.set('views', process.cwd() + "/src/views" )
 app.use(logger)
-app.get("/", handleHome)
+app.use(express.urlencoded({extended:true}))
+app.use(
+    session({
+        secret: process.env.COOKIE_SECRET,
+        resave:false,
+        saveUninitialized:false,
+        store: MongoStore.create({ mongoUrl: process.env.DB_URL}, )
+    })
+)
+// app.use((req,res,next) => {
+//     // res.locals.sexy = "you"
+//     req.sessionStore.all((error, sessions) => {
+//         console.log(sessions)
+//         next()
+//     })
+// })
+
+app.use(localsMiddleware)
+
+app.use("/uploads", express.static("uploads"))
+app.use("/", rootRouter)
+app.use("/videos", videoRouter)
+app.use("/users", userRouter)
 
 
-
-const handleListening = () => console.log(`Server listening on port http://localhost:${PORT}❤`)
-
-app.listen(PORT, handleListening)
+export default app
