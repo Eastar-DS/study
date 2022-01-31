@@ -165,15 +165,19 @@ export const getEdit = (req,res) => {
 export const postEdit = async (req,res) => {
     const { 
         session: {
-            user: { _id }, 
+            user: { _id, avatarUrl }, 
         },
         body : { name, email, username, location,},
         file,
      } =  req
     //  console.log(file)
+    //  console.log(path) : 무한로딩
     //const i = req.session.user.id
     // const { name, email, username, location,} = req.body
     const updatedUser = await User.findByIdAndUpdate(_id, {
+        // 유저가 아바타를 안바꾸면 어떻게할거야
+        // avatarUrl:path,
+        avatarUrl:file ? file.path : avatarUrl,
         name,
         email, 
         username, 

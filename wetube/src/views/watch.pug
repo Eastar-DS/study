@@ -3,6 +3,7 @@ extends base.pug
 
 
 block content
+    video(src="/" + video.fileUrl, controls)
     //- h3 #{video.view} #{video.view === 1 ? "view" : "views"}
     div
         p=video.description

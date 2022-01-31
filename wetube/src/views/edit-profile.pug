@@ -1,6 +1,7 @@
 extends base
 
 block content 
+    img(src="/" + loggedInUser.avatarUrl, width="100", height="100")
     form(method="POST", enctype="multipart/form-data")
         //- locals가 있으므로 name에 변수 사용가능.
         label(for="avatar") Avatar
