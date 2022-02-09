@@ -4,19 +4,27 @@ extends base.pug
 
 block content
     video(src="/" + video.fileUrl, controls)
-    //- h3 #{video.view} #{video.view === 1 ? "view" : "views"}
     div
-        p=video.description
-        small=video.createdAt    
-        //- 8.11 video.owner, loggedInUser._id가 일치하면 수정,삭제 가능하게하자.
-        //- small=video.owner
-        //- br
-        //- small=loggedInUser._id
-    div
-        small Uploaded by 
-            a(href=`/users/${video.owner._id}`)=video.owner.name
-    if String(video.owner._id) === String(loggedInUser._id)
-        a(href=`${video.id}/edit`) Edit Video &rarr;
-        br
-        a(href=`${video.id}/delete`) Delete Video &rarr;
-    
+        button#play Play 
+        button#mute Mute 
+        span#time 00:00/00:00
+        input(type="range", step="0.1", min="0", max="1")#volume
+    //- //- h3 #{video.view} #{video.view === 1 ? "view" : "views"}
+    //- div
+    //-     p=video.description
+    //-     small=video.createdAt    
+    //-     //- 8.11 video.owner, loggedInUser._id가 일치하면 수정,삭제 가능하게하자.
+    //-     //- small=video.owner
+    //-     //- br
+    //-     //- small=loggedInUser._id
+    //- div
+    //-     small Uploaded by 
+    //-         a(href=`/users/${video.owner._id}`)=video.owner.name
+    //- if String(video.owner._id) === String(loggedInUser._id)
+    //-     a(href=`${video.id}/edit`) Edit Video &rarr;
+    //-     br
+    //-     a(href=`${video.id}/delete`) Delete Video &rarr;
+
+
+block scripts 
+    script(src="/static/js/videoPlayer.js")

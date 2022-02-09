@@ -36,7 +36,11 @@ app.use(
 
 app.use(localsMiddleware)
 
+// /uploads는 uploads폴더를 url에서 어떻게 표현할지 정하는것.
+// /hi로하면 /hi/avatars/file로 접속했을때 uploads폴더안에 있는 파일을 사용한다.
 app.use("/uploads", express.static("uploads"))
+// app.use("/assets", express.static("assets"))
+app.use("/static", express.static("assets"))
 app.use("/", rootRouter)
 app.use("/videos", videoRouter)
 app.use("/users", userRouter)
