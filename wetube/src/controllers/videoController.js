@@ -26,7 +26,7 @@ export const watch = async (req,res) => {
     // console.log(req.params)
     const {id} = req.params
     // const video = await Video.findById(id)
-    // owner의 ref를 User로 적어놨는데 굳이 이렇게 할필요없겠네? populate!
+    // 8.12 owner의 ref를 User로 적어놨는데 굳이 이렇게 할필요없겠네? populate!
     // const owner = await User.findById(video.owner)
     const video = await Video.findById(id).populate("owner")
     // console.log(video)
@@ -55,8 +55,8 @@ export const postEdit = async (req,res) => {
     const { id } = req.params
     // console.log(req.body)
     const {title, description, hashtags} = req.body
-    // const video = await Video.findById(id)
-    const video = await Video.exists({_id:id})
+    const video = await Video.findById(id)
+    // const video = await Video.exists({_id:id})
     if (!video) {
         return res.status(404).render("404", {pageTitle : `Video is not found`,  })
     }

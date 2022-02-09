@@ -210,6 +210,7 @@ export const postChangePassword = async (req,res) => {
         },
         body : { oldPassword, newPassword, newPasswordConfirmation, },
     } =  req
+    const user = await User.findById(_id)
     const ok = await bcrypt.compare(oldPassword, user.password)
     if(newPassword !== newPasswordConfirmation) {
         return res.status(400).render("/users/change-password", {
@@ -223,7 +224,7 @@ export const postChangePassword = async (req,res) => {
             errorMessage: "The current password is incorrect",
         })
      }
-     const user = await User.findById(_id)
+    //  const user = await User.findById(_id)
      user.password = newPassword
     //  console.log(user.password)
      await user.save()
