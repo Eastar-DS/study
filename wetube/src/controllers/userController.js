@@ -1,5 +1,5 @@
 import User from "../models/User"
-import Video from "../models/Video"
+// import Video from "../models/Video"
 import bcrypt from "bcrypt"
 import fetch from "node-fetch"
 import { redirect } from "express/lib/response"
@@ -237,7 +237,15 @@ export const postChangePassword = async (req,res) => {
 export const see = async (req,res) => {
     const {id} = req.params
     // 8.13 또다른 방법! populate!
-    const user = await User.findById(id).populate("videos")
+    // const user = await User.findById(id).populate("videos")
+    // 10.2
+    const user = await User.findById(id).populate({
+        path: "videos",
+        populate: {
+            path: "owner",
+            model: "User",
+        },
+    })
     if(!user){
         return res.status(404).render("404", {pageTitle: "User not found."})
     }

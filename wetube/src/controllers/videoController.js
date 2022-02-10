@@ -11,7 +11,9 @@ import Video from "../models/Video"
 //     }
 // })
 export const home = async(req,res) => {
-    const videos = await Video.find({}).sort({createdAt:"desc"}).populate("owner")
+    const videos = await Video.find({})
+        .sort({createdAt:"desc"})
+        .populate("owner")
     // console.log(videos)
     return res.render("home", {pageTitle : "Home", videos})
     // try{
@@ -144,7 +146,7 @@ export const search = async(req, res) => {
                 // $regex: new RegExp(`^${keyword}`,"i"),
                 $regex: new RegExp(keyword,"i"),
             }
-        })
+        }).populate("owner")
     }
     return res.render("search", {pageTitle : `Search Video`, videos})
 }

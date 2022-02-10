@@ -4,7 +4,9 @@ include mixins/video
 block content
     form(method="get").search__form
         input(placeholder="Search by title", name="keyword", type="text" )
-        input(type="submit", value="Search Now")
+        button 
+            i.fas.fa-search
+        //- input(type="submit", value="Search Now")
 
     div.video-grid
         each video in videos 
