@@ -48,6 +48,7 @@ export const getEdit = async (req,res) => {
     // console.log(typeof video.owner,typeof  _id) : object, string
     const {user : {_id}} = req.session
     if(String(video.owner) !== String(_id)){
+        req.flash("error", "Not authorized");
         return res.status(403).redirect("/")
     }
     return res.render("edit", {pageTitle : `Editing: ${video.title}`, video, })
@@ -65,6 +66,7 @@ export const postEdit = async (req,res) => {
     // 8.14 여기도 getEdit과 같이
     const {user : {_id}} = req.session
     if(String(video.owner) !== String(_id)){
+        req.flash("error", "You are not the the owner of the video.");
         return res.status(403).redirect("/")
     }
 
@@ -91,7 +93,9 @@ export const postUpload = async (req,res) => {
         user: {_id}
     } = req.session
     // const file = req.file
-    const {path : fileUrl} = req.file
+    // const {path : fileUrl} = req.file
+    const { video, thumb } = req.files;
+    // console.log(video, thumb);
     const { title, description, hashtags } = req.body
     try {
         //8.13 create는 return해주는게 있으므로 이걸 이용해서 user에 추가해주자.
@@ -99,8 +103,10 @@ export const postUpload = async (req,res) => {
         // const video = new Video({
             title,
             description,
-            fileUrl,
             // fileUrl:file.path,
+            // fileUrl,
+            fileUrl: video[0].path,
+            thumbUrl: thumb[0].path.replace(/[\\]/g, "/"),
             owner: _id,
             hashtags : Video.formatHashtags(hashtags),                
         })
