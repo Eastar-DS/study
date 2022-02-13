@@ -81,6 +81,7 @@ export const postEdit = async (req,res) => {
     //     .split(",")
     //     .map(word => word.startsWith('#') ? word : `#${word}`)
     // await video.save()
+    req.flash("success", "Changes saved.");
     return res.redirect(`/videos/${id}`)
 }
 
