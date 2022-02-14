@@ -1,5 +1,6 @@
 import User from "../models/User"
 import Video from "../models/Video"
+import Comment from "../models/Comment";
 
 
 // {}는 search terms임. 비어있으면 모든형식을 찾는다는뜻
@@ -30,7 +31,7 @@ export const watch = async (req,res) => {
     // const video = await Video.findById(id)
     // 8.12 owner의 ref를 User로 적어놨는데 굳이 이렇게 할필요없겠네? populate!
     // const owner = await User.findById(video.owner)
-    const video = await Video.findById(id).populate("owner")
+    const video = await Video.findById(id).populate("owner").populate("comments")
     // console.log(video)
     if(!video){
         return res.render("404", {pageTitle : `Video is not found`,  })
@@ -169,3 +170,26 @@ export const registerView = async (req, res) => {
     await video.save()
     return res.sendStatus(200)
 }
+
+export const createComment = async (req, res) => {
+    // console.log(req.params);
+    // console.log(req.body);
+    // console.log(req.body.text, req.body.rating);
+    const {
+        session: { user },
+        body: { text },
+        params: { id },
+    } = req;
+    const video = await Video.findById(id);
+    if (!video) {
+        return res.sendStatus(404);
+    }
+    const comment = await Comment.create({
+        text,
+        owner: user._id,
+        video: id,
+    });
+    video.comments.push(comment._id);
+    video.save();
+    return res.status(201).json({ newCommentId: comment._id });
+  };

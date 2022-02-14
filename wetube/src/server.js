@@ -22,8 +22,19 @@ app.use((req, res, next) => {
     res.header("Cross-Origin-Opener-Policy", "same-origin");
     next();
     });
+
+// const corsOptions = {
+//     origin: 'http://localhost:4000',
+//     credentials: true, 
+//     };
+
+// app.use(cors(corsOptions));
+// app.use(cors());
+
 app.use(logger)
 app.use(express.urlencoded({extended:true}))
+app.use(express.json());
+
 app.use(
     session({
         secret: process.env.COOKIE_SECRET,
