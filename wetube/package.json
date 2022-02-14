@@ -6,17 +6,25 @@
     "npm": "8.1.2"
   },
   "scripts": {
+<<<<<<< HEAD
     "start": "node build/init.js",
     "build": "npm run build:server",
     "build:server": "babel src -d build",
     "dev": "nodemon --exec babel-node src/init.js"
+=======
+    "dev:server": "nodemon",
+    "dev:assets": "webpack"
+>>>>>>> gh-pages
   },
   "license": "MIT",
   "dependencies": {
+    "@ffmpeg/core": "^0.10.0",
+    "@ffmpeg/ffmpeg": "^0.10.1",
     "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
+    "express-flash": "^0.0.2",
     "express-session": "^1.17.2",
     "heroku": "^7.59.2",
     "mongoose": "^6.1.8",
@@ -31,6 +39,14 @@
     "@babel/core": "^7.16.12",
     "@babel/node": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
-    "nodemon": "^2.0.15"
+    "babel-loader": "^8.2.3",
+    "css-loader": "^6.6.0",
+    "mini-css-extract-plugin": "^2.5.3",
+    "nodemon": "^2.0.15",
+    "sass": "^1.49.7",
+    "sass-loader": "^12.4.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.68.0",
+    "webpack-cli": "^4.9.2"
   }
 }
