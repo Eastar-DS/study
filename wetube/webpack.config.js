@@ -20,8 +20,8 @@ module.exports = {
     plugins: [new MiniCssExtractPlugin({
         filename: "css/styles.css",
     })],
-    mode: "development",
-    watch: true,
+    // mode: "development",
+    // watch: true,
     output: {
         // filename: "main.js",
         // filename: "js/main.js",
