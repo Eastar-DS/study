@@ -1,9 +1,6 @@
 /node_modules
 .env
 /uploads
-<<<<<<< HEAD
 /build
-=======
 .DS_Store
 /assets
->>>>>>> gh-pages
