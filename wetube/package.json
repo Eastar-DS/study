@@ -6,15 +6,8 @@
     "npm": "8.1.2"
   },
   "scripts": {
-<<<<<<< HEAD
-    "start": "node build/init.js",
-    "build": "npm run build:server",
-    "build:server": "babel src -d build",
-    "dev": "nodemon --exec babel-node src/init.js"
-=======
     "dev:server": "nodemon",
     "dev:assets": "webpack"
->>>>>>> gh-pages
   },
   "license": "MIT",
   "dependencies": {
