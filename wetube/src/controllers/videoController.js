@@ -99,6 +99,7 @@ export const postUpload = async (req,res) => {
     const { video, thumb } = req.files;
     // console.log(video, thumb);
     const { title, description, hashtags } = req.body
+    const isHeroku = process.env.NODE_ENV === "production"
     try {
         //8.13 create는 return해주는게 있으므로 이걸 이용해서 user에 추가해주자.
         const newVideo = await Video.create({
@@ -107,8 +108,9 @@ export const postUpload = async (req,res) => {
             description,
             // fileUrl:file.path,
             // fileUrl,
-            fileUrl: video[0].path,
-            thumbUrl: thumb[0].path.replace(/[\\]/g, "/"),
+            fileUrl: isHeroku ? video[0].location : video[0].path,
+            // thumbUrl: thumb[0].location,
+            thumbUrl: isHeroku ? thumb[0].location.replace(/[\\]/g, "/") : video[0].path,
             owner: _id,
             hashtags : Video.formatHashtags(hashtags),                
         })
