@@ -108,12 +108,14 @@ export const postUpload = async (req,res) => {
             description,
             // fileUrl:file.path,
             // fileUrl,
-            fileUrl: isHeroku ? video[0].location : video[0].path,
+            fileUrl: isHeroku ? video[0].location.replace(/[\\]/g, "/") : video[0].path.replace(/[\\]/g, "/"),
             // thumbUrl: thumb[0].location,
-            thumbUrl: isHeroku ? thumb[0].location.replace(/[\\]/g, "/") : video[0].path,
+            thumbUrl: isHeroku ? thumb[0].location.replace(/[\\]/g, "/") : thumb[0].path.replace(/[\\]/g, "/"),
+            // thumbUrl: isHeroku ? thumb[0].location : thumb[0].path,
             owner: _id,
             hashtags : Video.formatHashtags(hashtags),                
         })
+        // console.log(newVideo.fileUrl)
         //8.13
         const user = await User.findById(_id)
         user.videos.push(newVideo._id)
