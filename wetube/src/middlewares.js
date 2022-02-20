@@ -23,6 +23,13 @@ const s3VideoUploader = multerS3({
     acl: "public-read",
 })
 
+const multerUploader = multerS3({
+    s3: s3,
+    bucket: 'wetube-0218',
+    acl: "public-read",
+})
+
+
 export const localsMiddleware = (req, res, next) => {
     res.locals.siteName = "Wetube"
     res.locals.loggedIn = Boolean(req.session.loggedIn)
@@ -62,12 +69,14 @@ export const avatarUpload = multer({
     limits: {
     fileSize: 3000000,
     },
-    storage: isHeroku ? s3ImageUploader : undefined,
+    // storage: isHeroku ? s3ImageUploader : undefined,
+    storage: multerUploader
 })
 export const videoUpload = multer({
     dest: "uploads/videos/", 
     limits: {
     fileSize: 200000000,
     },
-    storage: isHeroku ? s3VideoUploader : undefined,
+    // storage: isHeroku ? s3VideoUploader : undefined,
+    storage: multerUploader
 })
