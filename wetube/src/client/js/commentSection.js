@@ -27,7 +27,8 @@ const handleSubmit = async (event) => {
   if (text === "" || text.trim() === "") {
     return;
     }
-    const response = await fetch(`http://localhost:4000/api/videos/${videoId}/comment`, {
+    // const response = await fetch(`http://localhost:4000/api/videos/${videoId}/comment`, {
+    const response = await fetch(`https://wetube-0217.herokuapp.com/api/videos/${videoId}/comment`, {      
     method: "POST",
     headers: {
       "Content-Type": "application/json",
