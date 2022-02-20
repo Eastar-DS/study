@@ -69,14 +69,14 @@ export const avatarUpload = multer({
     limits: {
     fileSize: 3000000,
     },
-    // storage: isHeroku ? s3ImageUploader : undefined,
-    storage: multerUploader
+    storage: isHeroku ? s3ImageUploader : undefined,
+    // storage: multerUploader
 })
 export const videoUpload = multer({
     dest: "uploads/videos/", 
     limits: {
     fileSize: 200000000,
     },
-    // storage: isHeroku ? s3VideoUploader : undefined,
-    storage: multerUploader
+    storage: isHeroku ? s3VideoUploader : undefined,
+    // storage: multerUploader
 })

@@ -180,7 +180,8 @@ export const postEdit = async (req,res) => {
     const updatedUser = await User.findByIdAndUpdate(_id, {
         // 유저가 아바타를 안바꾸면 어떻게할거야
         // avatarUrl:path,
-        avatarUrl:file ? (isHeroku ? file.location : file.path) : avatarUrl,
+        // avatarUrl:file ? (isHeroku ? file.location : file.path) : avatarUrl,
+        avatarUrl:file ? file.location : avatarUrl,
         name,
         email, 
         username, 
