@@ -176,10 +176,12 @@ export const postEdit = async (req,res) => {
     //  console.log(path) : 무한로딩
     //const i = req.session.user.id
     // const { name, email, username, location,} = req.body
+    const isHeroku = process.env.NODE_ENV === "production"
     const updatedUser = await User.findByIdAndUpdate(_id, {
         // 유저가 아바타를 안바꾸면 어떻게할거야
         // avatarUrl:path,
-        avatarUrl:file ? file.path : avatarUrl,
+        // avatarUrl:file ? (isHeroku ? file.location : file.path) : avatarUrl,
+        avatarUrl:file ? file.location : avatarUrl,
         name,
         email, 
         username, 

@@ -99,6 +99,7 @@ export const postUpload = async (req,res) => {
     const { video, thumb } = req.files;
     // console.log(video, thumb);
     const { title, description, hashtags } = req.body
+    const isHeroku = process.env.NODE_ENV === "production"
     try {
         //8.13 create는 return해주는게 있으므로 이걸 이용해서 user에 추가해주자.
         const newVideo = await Video.create({
@@ -107,11 +108,14 @@ export const postUpload = async (req,res) => {
             description,
             // fileUrl:file.path,
             // fileUrl,
-            fileUrl: video[0].path,
-            thumbUrl: thumb[0].path.replace(/[\\]/g, "/"),
+            fileUrl: isHeroku ? video[0].location.replace(/[\\]/g, "/") : video[0].location,
+            // thumbUrl: thumb[0].location,
+            thumbUrl: isHeroku ? thumb[0].location.replace(/[\\]/g, "/") : thumb[0].location,
+            // thumbUrl: isHeroku ? thumb[0].location : thumb[0].path,
             owner: _id,
             hashtags : Video.formatHashtags(hashtags),                
         })
+        // console.log(newVideo.fileUrl)
         //8.13
         const user = await User.findById(_id)
         user.videos.push(newVideo._id)
@@ -139,6 +143,10 @@ export const deleteVideo = async (req,res) => {
     if(String(video.owner) !== String(_id)){
         return res.status(403).redirect("/")
     }
+    // 8.14댓글 user에있는 video목록도 지워줘야겠네?
+    const user = await User.findById(_id);
+    user.videos.splice(user.videos.indexOf(id),1);
+    user.save();
     
     await Video.findByIdAndDelete(id)
     return res.redirect("/")
@@ -166,7 +174,7 @@ export const registerView = async (req, res) => {
         return res.sendStatus(404)
     }
     video.meta.views = video.meta.views + 1
-    console.log(video)
+    // console.log(video)
     await video.save()
     return res.sendStatus(200)
 }
