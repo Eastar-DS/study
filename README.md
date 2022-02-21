@@ -1,7 +1,5 @@
 # Study
 
-보고싶은 페이지는 주소뒤에 폴더명을 붙여주세요.
-
 코코아클론(~1.4)
 https://eastar-ds.github.io/study/kokoa
 
@@ -12,3 +10,6 @@ https://eastar-ds.github.io/study/crom
 
 유튜브 클론코딩(~2.17)
 https://wetube-0217.herokuapp.com/
+
+바닐라JS로 그림판 만들기(~2.22)
+https://eastar-ds.github.io/study/js_paint
