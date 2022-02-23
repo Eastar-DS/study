@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <span>Total clicks: 0</span>
+    <button id="btn">Click me</button>
+    <h3></h3>
+    <a href="index.html">처음화면</a>
+    <h3></h3>
+    <a href="vanilla.html">바닐라JS로 카운터</a>
+    <h3>vs</h3>
+    <a href="react_btn.html">리액트로 카운터</a>
+  </body>
+  <script>
+    let counter = 0;
+    const button = document.getElementById("btn");
+    const span = document.querySelector("span");
+    function handleClick() {
+      counter = counter + 1;
+      span.innerText = `Total clicks: ${counter}`;
+    }
+    button.addEventListener("click", handleClick);
+  </script>
+</html>
